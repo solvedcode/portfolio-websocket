@@ -3,7 +3,7 @@ import { createHash } from "crypto";
 import { Socket } from "net";
 import { WebSocketConnection } from "./web-socket-connection";
 import { Duplex } from "stream";
-import { validateId } from "src/utils/id-validator";
+import { validateId } from "../../src/utils/id-validator";
 
 export class WebSocketServer {
   private server = createServer();
