@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,7 +19,7 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
-      input[type="text"] {
+      input[type='text'] {
         padding: 8px;
         margin-right: 10px;
         border: 1px solid #ccc;
@@ -64,9 +64,7 @@
       <label for="userIdInput">Enter User ID:</label>
       <input type="text" id="userIdInput" placeholder="e.g., user123" />
       <button onclick="connectWebSocket()">Connect</button>
-      <button onclick="disconnectWebSocket()" disabled id="disconnectBtn">
-        Disconnect
-      </button>
+      <button onclick="disconnectWebSocket()" disabled id="disconnectBtn">Disconnect</button>
 
       <p id="status">Status: Disconnected</p>
 
@@ -75,72 +73,72 @@
     </div>
 
     <script>
-      let ws; // Declares a variable to hold our WebSocket connection
-      const userIdInput = document.getElementById("userIdInput");
-      const statusParagraph = document.getElementById("status");
-      const messagesDiv = document.getElementById("messages");
-      const disconnectButton = document.getElementById("disconnectBtn");
+      let ws // Declares a variable to hold our WebSocket connection
+      const userIdInput = document.getElementById('userIdInput')
+      const statusParagraph = document.getElementById('status')
+      const messagesDiv = document.getElementById('messages')
+      const disconnectButton = document.getElementById('disconnectBtn')
 
       /**
        * Connects to the WebSocket server using the provided user ID.
        */
       function connectWebSocket() {
-        const userId = userIdInput.value.trim(); // Get user ID from input and remove whitespace
+        const userId = userIdInput.value.trim() // Get user ID from input and remove whitespace
 
         if (!userId) {
-          alert("Please enter a User ID to connect.");
-          return;
+          alert('Please enter a User ID to connect.')
+          return
         }
 
         // Close existing connection if open
         if (ws && ws.readyState === WebSocket.OPEN) {
-          ws.close();
+          ws.close()
         }
 
         // Construct the WebSocket URL with the user ID as a query parameter
-        ws = new WebSocket(`ws://localhost:3000?userId=${userId}`);
+        ws = new WebSocket(`ws://localhost:3000?userId=${userId}`)
 
         // Update UI
-        statusParagraph.textContent = `Status: Connecting as ${userId}...`;
-        disconnectButton.disabled = false;
+        statusParagraph.textContent = `Status: Connecting as ${userId}...`
+        disconnectButton.disabled = false
 
         ws.onopen = () => {
-          console.log(`✅ Connected to server as ${userId}`);
-          statusParagraph.textContent = `Status: Connected as ${userId}`;
+          console.log(`✅ Connected to server as ${userId}`)
+          statusParagraph.textContent = `Status: Connected as ${userId}`
           // Send a greeting message upon connection
           ws.send(
             JSON.stringify({
-              type: "greeting",
+              type: 'greeting',
               message: `Hello from client ${userId}!`,
-              id: userId, // Include ID in message for server context
+              id: userId // Include ID in message for server context
             })
-          );
-        };
+          )
+        }
 
-        ws.onmessage = (event) => {
+        ws.onmessage = event => {
           try {
-            const data = JSON.parse(event.data);
-            console.log("📩 JSON from server:", data);
-            appendMessage(`Server: ${JSON.stringify(data, null, 2)}`); // Pretty print JSON
+            const data = JSON.parse(event.data)
+            console.log('📩 JSON from server:', data)
+            appendMessage(`Server: ${JSON.stringify(data, null, 2)}`) // Pretty print JSON
           } catch (err) {
-            console.error("❌ Error parsing JSON:", err, event.data);
-            appendMessage(`Server (raw): ${event.data}`);
+            console.error('❌ Error parsing JSON:', err, event.data)
+            appendMessage(`Server (raw): ${event.data}`)
           }
-        };
+        }
 
-        ws.onerror = (e) => {
-          console.error("❌ WebSocket error:", e);
-          statusParagraph.textContent = `Status: Error - check console`;
-          appendMessage(`Error: ${e.message || "Unknown WebSocket error"}`);
-          disconnectButton.disabled = true; // Disable disconnect on error
-        };
+        ws.onerror = e => {
+          console.error('❌ WebSocket error:', e)
+          statusParagraph.textContent = `Status: Error - check console`
+          appendMessage(`Error: ${e.message || 'Unknown WebSocket error'}`)
+          disconnectButton.disabled = true // Disable disconnect on error
+        }
 
         ws.onclose = () => {
-          console.warn("⚠️ WebSocket connection closed");
-          statusParagraph.textContent = `Status: Disconnected`;
-          disconnectButton.disabled = true; // Disable disconnect button
-          appendMessage("Disconnected from server.");
-        };
+          console.warn('⚠️ WebSocket connection closed')
+          statusParagraph.textContent = `Status: Disconnected`
+          disconnectButton.disabled = true // Disable disconnect button
+          appendMessage('Disconnected from server.')
+        }
       }
 
       /**
@@ -148,9 +146,9 @@
        */
       function disconnectWebSocket() {
         if (ws && ws.readyState === WebSocket.OPEN) {
-          ws.close();
+          ws.close()
         } else {
-          console.log("No active WebSocket connection to disconnect.");
+          console.log('No active WebSocket connection to disconnect.')
         }
       }
 
@@ -159,14 +157,14 @@
        * @param {string} msg The message to append.
        */
       function appendMessage(msg) {
-        const p = document.createElement("p");
-        p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-        messagesDiv.appendChild(p);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to bottom
+        const p = document.createElement('p')
+        p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`
+        messagesDiv.appendChild(p)
+        messagesDiv.scrollTop = messagesDiv.scrollHeight // Scroll to bottom
       }
 
       // Initial status when page loads
-      statusParagraph.textContent = "Status: Enter User ID and Connect";
+      statusParagraph.textContent = 'Status: Enter User ID and Connect'
     </script>
   </body>
 </html>
