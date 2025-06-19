@@ -4,10 +4,12 @@ import { Socket } from "net";
 import { WebSocketConnection } from "./web-socket-connection";
 import { Duplex } from "stream";
 import { validateId } from "../../src/utils/id-validator";
+import { CorsValidator } from "../../src/utils/cors-validator";
 
 export class WebSocketServer {
   private server = createServer();
   private connections: Set<WebSocketConnection> = new Set();
+  private corsValidator: CorsValidator = new CorsValidator();
 
   constructor(private port: number = 3000) {}
 
@@ -22,6 +24,16 @@ export class WebSocketServer {
 
   private handleUpgrade(req: IncomingMessage, socket: Duplex): void {
     const key = req.headers["sec-websocket-key"];
+    const origin = req.headers["origin"] ?? null;
+
+    console.log("origin:" + origin);
+
+    if (!this.corsValidator.isOriginAllowed(origin)) {
+      console.warn(`❌ Connection attempt from disallowed origin: ${origin}`);
+      socket.destroy();
+      return;
+    }
+
     if (!key || typeof key !== "string") {
       socket.destroy();
       return;
