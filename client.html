@@ -96,7 +96,7 @@
         }
 
         // Construct the WebSocket URL with the user ID as a query parameter
-        ws = new WebSocket(`ws://localhost:3000?userId=${userId}`)
+        ws = new WebSocket(`ws://localhost:8000?userId=${userId}`)
 
         // Update UI
         statusParagraph.textContent = `Status: Connecting as ${userId}...`
