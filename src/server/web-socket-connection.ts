@@ -7,7 +7,7 @@ export class WebSocketConnection {
 
   constructor(
     private socket: Socket,
-    public userId: number
+    public userId: number | null
   ) {
     this.listen()
   }
