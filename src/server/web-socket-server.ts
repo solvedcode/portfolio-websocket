@@ -91,7 +91,7 @@ export class WebSocketServer {
 
   public sendToGroup(userIds: number[], message: object): void {
     for (const connection of this.connections) {
-      if (userIds.includes(connection.userId)) {
+      if (connection.userId !== null && userIds.includes(connection.userId)) {
         connection.send(message)
       }
     }
