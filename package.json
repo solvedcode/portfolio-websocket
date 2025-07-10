@@ -1,11 +1,13 @@
 {
   "devDependencies": {
     "@types/node": "^24.0.3",
+    "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "format": "prettier --write ."
   }
 }
