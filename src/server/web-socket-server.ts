@@ -40,12 +40,6 @@ export class WebSocketServer {
     const requestUrl = new URL(req.url || '/', `http://localhost:${this.port}`)
     const rawUserId = requestUrl.searchParams.get('userId')
 
-    if (!rawUserId) {
-      console.warn('❌ Connection attempt without userId. Rejecting.')
-      socket.destroy()
-      return
-    }
-
     const userId = validateId(rawUserId)
 
     const acceptKey = createHash('sha1')

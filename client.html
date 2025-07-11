@@ -85,10 +85,10 @@
       function connectWebSocket() {
         const userId = userIdInput.value.trim() // Get user ID from input and remove whitespace
 
-        if (!userId) {
-          alert('Please enter a User ID to connect.')
-          return
-        }
+        //if (!userId) {
+        //  alert('Please enter a User ID to connect.')
+        //  return
+        //}
 
         // Close existing connection if open
         if (ws && ws.readyState === WebSocket.OPEN) {
