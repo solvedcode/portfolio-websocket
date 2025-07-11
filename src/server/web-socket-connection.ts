@@ -16,6 +16,12 @@ export class WebSocketConnection {
     this.socket.on('data', buffer => {
       try {
         const rawMessage = decodeWebSocketFrame(buffer)
+
+        if (!rawMessage || rawMessage.trim() === '') {
+          console.warn('⚠️ Empty WebSocket frame received')
+          return
+        }
+
         const message = JSON.parse(rawMessage)
         console.log('📩 Received:', message)
 
