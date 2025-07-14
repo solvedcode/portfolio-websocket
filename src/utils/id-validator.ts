@@ -6,7 +6,7 @@ export function validateId(id: any): number | null {
     return null
   }
 
-  if (num < 0) {
+  if (num <= 0) {
     // throw new Error('ID must be a positive number')
     return null
   }
